@@ -1,7 +1,4 @@
-package ABSTRACCION.Ejercicio6;
-
-import ABSTRACCION.Ejercicio5.Redimensionable;
-import org.w3c.dom.css.Rect;package ABSTRACCION.Ejercicio5;
+import java.lang.Comparable;
 
 public class Rectangulo implements Comparable<Rectangulo> {
 
@@ -13,23 +10,29 @@ public class Rectangulo implements Comparable<Rectangulo> {
         this.alto = alto;
     }
 
-    public void getArea() {
-        System.out.println("Área rectángulo: " + ancho * alto);
-    }
-
-    public void getPerimeter() {
-        System.out.println("Perímetro rectángulo: " + ((2*alto) + (2*ancho)));
+    public int getArea() {
+        return ancho * alto;
     }
 
     @Override
-    public void redimensionar(int x) {
-        ancho = ancho * x;
-        alto = alto * x;
+    public int compareTo(Rectangulo r) {
+        int resultado = 0;
 
-        System.out.println("El área del rectángulo redimensionada es: ");
-        getArea();
-        System.out.println("El perímetro del rectángulo redimensionado es: ");
-        getPerimeter();
+        if(this.getArea() < r.getArea()) {
+            resultado = -1;
+        } else if(this.getArea() > r.getArea()) {
+            resultado = 1;
+        }
+
+        return resultado;
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangulo{" +
+                "ancho=" + ancho +
+                ", alto=" + alto +
+                ", Área=" + getArea() +
+                '}';
     }
 }
-
