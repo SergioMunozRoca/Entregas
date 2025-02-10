@@ -232,7 +232,7 @@ public class MainTelefono {
                     break;
 
                 case 10:
-                    telefonoMovil.printNumbers();
+                    telefonoMovil.numeroContactos();
                     break;
 
                 default:
