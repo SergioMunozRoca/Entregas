@@ -133,13 +133,12 @@ public class TelefonoMovil {
         }
     }
 
-    public void printNumbers() {
-        System.out.println("*******************");
-        System.out.println("Lista de Números");
-        System.out.println("*******************");
-        for (Contacto contacto : myContacts) {
-            System.out.println(contacto.getPhoneNumber());
-        }
+    public void numeroContactos() {
+        System.out.println("********************");
+        System.out.println("Número de Contactos");
+        System.out.println("********************");
+        System.out.println(myContacts.size());
+
     }
 
 }
