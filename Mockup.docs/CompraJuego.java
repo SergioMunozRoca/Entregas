@@ -1,82 +1,68 @@
-import Compra.Compra;
-import Ejercicio1.Contacto;
+package Compra;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CompraJuego {
 
     private ArrayList<Compra> misJuegos;
 
     public CompraJuego() {
-
         this.misJuegos = new ArrayList<>();
     }
 
-    private int findCompra(Compra compra) {
-        if(misJuegos.contains(compra)) {
-            return misJuegos.indexOf(compra);
-        }else{
-            return -1;
-        }
-    }
-
     private int findCompra(int id) {
-        int index = 0;
-        for (Compra compra : misJuegos) {
-            if (compra.getIdCompra() == id) {
-                return index;
+        for (int i = 0; i < misJuegos.size(); i++) {
+            if (misJuegos.get(i).getIdCompra() == id) {
+                return i;
             }
-            index++;
         }
         return -1;
     }
 
     public boolean addNewJuego(Compra compra) {
-        if (findCompra(compra.getIdCompra()) >= 0) {
+        if (compra == null || findCompra(compra.getIdCompra()) >= 0) {
+            return false;
+        }
+        return misJuegos.add(compra);
+    }
+
+    public boolean removeCompra(int id) {
+        Compra compra = queryCompra(id);
+        if (compra != null) {
+            misJuegos.remove(compra);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateCompra(Compra antigua, Compra nueva) {
+        int posicion = findCompra(antigua.getIdCompra());
+        if (posicion < 0 || nueva == null) {
             return false;
         }
 
-        misJuegos.add(compra);
-        return true;
-    }
-
-    public void borrarTodo() {
-        if (misJuegos.isEmpty()) {
-            System.out.println("No hay compras para eliminar.");
-        } else {
-            misJuegos.clear();
-            System.out.println("Todas las compras han sido eliminadas con éxito!!");
-        }
-    }
-
-    public boolean updateContact(Compra Antigua, Compra Nueva) {
-
-        int posicion = misJuegos.indexOf(Antigua);
-
-        if (posicion < 0) {
-            return false;
-        }
-
-        for (Compra compra: misJuegos) {
-            if (compra.getIdCompra() == (Nueva.getIdCompra()) && !compra.equals(Antigua)) {
+        for (Compra compra : misJuegos) {
+            if (compra.getIdCompra() == nueva.getIdCompra() && !Objects.equals(compra, antigua)) {
                 return false;
             }
         }
 
-        misJuegos.set(posicion, Nueva);
+        misJuegos.set(posicion, nueva);
         return true;
     }
 
     public Compra queryCompra(int id) {
-        for (Compra compra: misJuegos) {
-            if(id == compra.getIdCompra()) {
-                return compra;
-            }
-        }
-        return null;
+        int index = findCompra(id);
+        return index >= 0 ? misJuegos.get(index) : null;
     }
 
     public void printCompra() {
+        if (misJuegos.isEmpty()) {
+            System.out.println("No hay compras registradas.");
+            return;
+        }
+
         System.out.println("*******************");
         System.out.println("Lista de Compras");
         System.out.println("*******************");
