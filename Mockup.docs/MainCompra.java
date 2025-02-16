@@ -1,47 +1,25 @@
 package Compra;
 
-import Ejercicio1.Colores;
-import Ejercicio1.Contacto;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class MainCompra {
 
-    public static void imprimirMenu() {
-        System.out.println("*****************");
-        System.out.println("COMPRA DE JUEGOS");
-        System.out.println("*****************");
-        System.out.println("0 - Salir");
-        System.out.println("1 - Insertar juego");
-        System.out.println("2 - Eliminar juego");
-        System.out.println("3 - Actualizar juego");
-        System.out.println("4 - Buscar juego");
-        System.out.println("5 - Imprimir juego");
-    }
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final CompraJuego compraJuego = new CompraJuego();
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        int idCompra = validarId("Ingrese ID de compra (positivo): ", scanner);
-        LocalDate fCompra = validarFechaCompra(scanner);
-        String metodoPago = validarMetodoPago(scanner);
-        int idUsuario = validarId("Ingrese ID de usuario (positivo): ", scanner);
-
-        Compra compra = new Compra(idCompra, fCompra, metodoPago, idUsuario);
-        System.out.println("Compra creada exitosamente: " + compra);
-
         boolean continuar = true;
         int opcion;
 
-        imprimirMenu();
-
         while (continuar) {
-            System.out.println("..................");
-            System.out.print("Elige una opción: ");
+            imprimirMenu();
+            System.out.println("....................");
+            System.out.println("Elige una opción: ");
+
             while (!scanner.hasNextInt()) {
-                System.out.println("Por favor, introduce un número válido: ");
+                System.out.println("Por favor, introduce un número válido.");
                 scanner.next();
             }
             opcion = scanner.nextInt();
@@ -54,23 +32,23 @@ public class MainCompra {
                     break;
 
                 case 1:
-
+                    addNewCompra();
                     break;
 
                 case 2:
-
+                    deleteCompra();
                     break;
 
                 case 3:
-
+                    updateCompra();
                     break;
 
                 case 4:
-
+                    searchCompra();
                     break;
 
                 case 5:
-
+                    compraJuego.printCompra();
                     break;
 
                 default:
@@ -78,9 +56,87 @@ public class MainCompra {
                     break;
             }
         }
+        scanner.close();
     }
 
-    private static int validarId(String mensaje, Scanner scanner) {
+    private static void imprimirMenu() {
+        System.out.println("*****************");
+        System.out.println("COMPRA DE JUEGOS");
+        System.out.println("*****************");
+        System.out.println("0 - Salir");
+        System.out.println("1 - Insertar compra");
+        System.out.println("2 - Eliminar compra");
+        System.out.println("3 - Actualizar compra");
+        System.out.println("4 - Buscar compra");
+        System.out.println("5 - Imprimir compras");
+    }
+
+    private static void addNewCompra() {
+        System.out.println("Añadiendo nueva compra...");
+
+        int idCompra = validarId("Ingrese ID de compra (positivo): ");
+        LocalDate fCompra = validarFechaCompra();
+        String metodoPago = validarMetodoPago();
+        int idUsuario = validarId("Ingrese ID de usuario (positivo): ");
+
+        Compra compra = new Compra(idCompra, fCompra, metodoPago, idUsuario);
+        if (compraJuego.addNewJuego(compra)) {
+            System.out.println("Compra añadida correctamente!");
+        } else {
+            System.out.println("Error: La compra con ese ID ya existe.");
+        }
+    }
+
+    private static void deleteCompra() {
+        System.out.println("Eliminando compra...");
+        int idCompra = validarId("Ingrese ID de la compra a eliminar: ");
+
+        if (compraJuego.removeCompra(idCompra)) {
+            System.out.println("Compra eliminada con éxito!!");
+        } else {
+            System.out.println("Error: No se encontró una compra con ese ID.");
+        }
+    }
+
+    private static void updateCompra() {
+        System.out.println("Actualizando compra...");
+
+        int idCompra = validarId("Ingrese ID de la compra a actualizar: ");
+        Compra compraExistente = compraJuego.queryCompra(idCompra);
+
+        if (compraExistente == null) {
+            System.out.println("Error: No existe una compra con ese ID.");
+            return;
+        }
+
+        System.out.println("Introduce los nuevos datos:");
+
+        LocalDate fCompra = validarFechaCompra();
+        String metodoPago = validarMetodoPago();
+        int idUsuario = validarId("Ingrese nuevo ID de usuario (positivo): ");
+
+        Compra nuevaCompra = new Compra(idCompra, fCompra, metodoPago, idUsuario);
+
+        if (compraJuego.updateCompra(compraExistente, nuevaCompra)) {
+            System.out.println("Compra actualizada correctamente!");
+        } else {
+            System.out.println("Error: No se pudo actualizar la compra.");
+        }
+    }
+
+    private static void searchCompra() {
+        System.out.println("Buscando compra...");
+        int idCompra = validarId("Ingrese ID de la compra a buscar: ");
+        Compra compra = compraJuego.queryCompra(idCompra);
+
+        if (compra != null) {
+            System.out.println("Compra encontrada: " + compra);
+        } else {
+            System.out.println("No se encontró una compra con ese ID.");
+        }
+    }
+
+    private static int validarId(String mensaje) {
         int id;
         do {
             System.out.print(mensaje);
@@ -90,6 +146,7 @@ public class MainCompra {
                 scanner.next();
             }
             id = scanner.nextInt();
+            scanner.nextLine();
             if (id <= 0) {
                 System.out.println("Error: El ID debe ser un número positivo.");
             }
@@ -97,7 +154,7 @@ public class MainCompra {
         return id;
     }
 
-    private static LocalDate validarFechaCompra(Scanner scanner) {
+    private static LocalDate validarFechaCompra() {
         LocalDate fecha = null;
         do {
             System.out.print("Ingrese fecha de compra (YYYY-MM-DD): ");
@@ -111,7 +168,7 @@ public class MainCompra {
         return fecha;
     }
 
-    private static String validarMetodoPago(Scanner scanner) {
+    private static String validarMetodoPago() {
         String metodoPago;
         do {
             System.out.print("Ingrese método de pago (máximo 16 caracteres): ");
@@ -121,41 +178,5 @@ public class MainCompra {
             }
         } while (metodoPago.isEmpty() || metodoPago.length() > 16);
         return metodoPago;
-    }
-
-    private static void addNewCompra() {
-        int idCompra;
-        LocalDate fCompra;
-        String metodoPago;
-        int idUsuario;
-
-        do{
-            System.out.print("· Introduce el nombre del contacto: ");
-            nombre = scanner.nextLine();
-
-            if(!nombre.matches("[a-zA-Z]*")) {
-                System.out.println("Error: solo puedes introducir letras en el nombre.");
-            }
-
-        }while (!nombre.matches("[a-zA-Z]*"));
-
-        do{
-            System.out.print("· Introduce el número (máximo 9 dígitos): ");
-            numero = scanner.nextLine();
-
-            if(!numero.matches("[0-9]{1,9}")) {
-                System.out.println("Error: solo puedes introducir máximo 9 números.");
-            }
-
-        }while(!numero.matches("[0-9]{1,9}"));
-
-
-        Contacto newContact = Contacto.createContact(nombre, numero);
-
-        if (telefonoMovil.addNewContact(newContact)) {
-            System.out.println("Contacto añadido correctamente!!");
-        } else {
-            System.out.println("Error: El contacto ya existe.");
-        }
     }
 }
