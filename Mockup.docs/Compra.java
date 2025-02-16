@@ -8,7 +8,6 @@ public class Compra {
     private String metodoPago;
     private int idUsuario;
 
-    // Constructor
     public Compra(int idCompra, LocalDate fCompra, String metodoPago, int idUsuario) {
         this.idCompra = idCompra;
         this.fCompra = fCompra;
@@ -16,7 +15,6 @@ public class Compra {
         this.idUsuario = idUsuario;
     }
 
-    // Getters
     public int getIdCompra() {
         return idCompra;
     }
