@@ -1,12 +1,9 @@
 package Ejercicio2;
 
-import Ejercicio1.Colores;
-
 import java.util.*;
 
 public class mainCancion {
 
-    private ArrayList<Album> albumes;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void imprimirMenu(){
@@ -20,6 +17,7 @@ public class mainCancion {
         System.out.println("4 -Imprimir la lista de canciones en la playlist");
         System.out.println("5 -Volver a imprimir el menú");
         System.out.println("6 -Eliminar canción actual de la playlist");
+        System.out.println("7 -Imprimir álbum");
         System.out.println(".............................................");
     }
 
@@ -55,13 +53,10 @@ public class mainCancion {
         album1.addToPlayList(1,listaReproducion);
         album3.addToPlayList(1,listaReproducion);
 
-
-
         System.out.println(listaReproducion);
-        play(listaReproducion);
+        play(listaReproducion, albumes);
 
     }
-
 
     public static void printAlbum(ArrayList<Album> albumes){
 
@@ -80,10 +75,22 @@ public class mainCancion {
             }
         }while(!findname.matches("[a-zA-Z]*"));
 
+        boolean encontrado = false;
+        for (Album album : albumes) {
+            if (album.getNombre().equalsIgnoreCase(findname)) {
+                System.out.println("Álbum encontrado: Nombre: " + album.getNombre() + " / Artista: " + album.getArtista() + " / Canciones: " + album.getCanciones());
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado){
+            System.out.println("No se encontró el álbum.");
+        }
+
     }
 
-
-    public static void printPlayList(LinkedList<Cancion> listaReproduccion){
+    public static void printPlayList(LinkedList<Cancion> listaReproduccion, ArrayList<Album> albumes){
         Iterator<Cancion> iterator = listaReproduccion.iterator();
         while (iterator.hasNext()){
             System.out.println(iterator.next());
@@ -91,7 +98,7 @@ public class mainCancion {
         System.out.println("------------");
     }
 
-    public static void play(LinkedList<Cancion> listaReproduccion) {
+    public static void play(LinkedList<Cancion> listaReproduccion, ArrayList<Album> albumes) {
         boolean haciaAdelante = true;
         boolean continuar = true;
         ListIterator<Cancion> iterator = listaReproduccion.listIterator();
@@ -184,7 +191,7 @@ public class mainCancion {
                     if (listaReproduccion.isEmpty()){
                         System.out.println("No hay canciones añadidas en la playlist");
                     }
-                    printPlayList(listaReproduccion);
+                    printPlayList(listaReproduccion, albumes);
                     break;
 
                 case 5:
@@ -202,6 +209,10 @@ public class mainCancion {
                         System.out.println("No quedan canciones para eliminar.");
                         imprimirMenu();
                     }
+                    break;
+                case 7:
+                    scanner.nextLine();
+                    printAlbum(albumes);
                     break;
 
                 default:
