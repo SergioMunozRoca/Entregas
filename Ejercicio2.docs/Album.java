@@ -14,6 +14,18 @@ public class Album {
         this.canciones = new ArrayList<>();
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getArtista() {
+        return artista;
+    }
+
+    public ArrayList<Cancion> getCanciones() {
+        return canciones;
+    }
+
     private Cancion findSong (String titulo){
         for (Cancion cancion : canciones){
             if (cancion.getTitulo().equalsIgnoreCase(titulo)){
@@ -50,4 +62,5 @@ public class Album {
         }
         return false;
     }
+
 }
