@@ -90,9 +90,5 @@ public class Mago extends Heroe{
 
         return new Mago(nombre, nivel, puntosVida, armasSeleccionadas.get(0), mana);
     }
-
-    @Override
-    public String toString() {
-        return "Mago{Nombre: " + getNombre() + ", Nivel: " + getNivel() + ", Puntos de Vida: " + getPuntosVida() + ", Mana: " + mana + ", Arma Especial: " + getArmaespecial() + "}";
-    }
+    
 }
