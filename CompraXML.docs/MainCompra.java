@@ -187,23 +187,22 @@ public class MainCompra {
     }
 
     private static void mostrarXML() {
-
-        System.out.println("===================");
-        System.out.println("XML DE LAS COMPRAS");
-        System.out.println("===================");
-
-        System.out.println("<Compras>");
+        
 
         for (Compra compra : compraJuego.misJuegos) {
+            System.out.println();
+            System.out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            System.out.println("<Compras>");
             System.out.println("  <Compra>");
             System.out.println("    <idCompra>" + compra.getIdCompra() + "</idCompra>");
             System.out.println("    <fCompra>" + compra.getFCompra() + "</fCompra>");
             System.out.println("    <metodoPago>" + compra.getMetodoPago() + "</metodoPago>");
             System.out.println("    <idUsuario>" + compra.getIdUsuario() + "</idUsuario>");
             System.out.println("  </Compra>");
+            System.out.println("</Compras>");
         }
 
-        System.out.println("</Compras>");
+
         System.out.println();
     }
 }
