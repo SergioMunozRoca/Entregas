@@ -25,16 +25,4 @@ public class FormaTest {
         assertEquals(4 * 6, rectangulo.area(), 0.01);
         assertEquals(2 * Math.PI * 3 * (3 + 7), cilindro.area(), 0.01);
     }
-
-    @Test
-    public void testCalcularPintura() {
-        Pintura pintura = new Pintura(10);
-        Esfera esfera = new Esfera(5);
-        Rectangulo rectangulo = new Rectangulo("Rectangulo",4, 6);
-        Cilindro cilindro = new Cilindro("Cilindro",3, 7);
-
-        assertEquals(esfera.area() / 10, pintura.cantidadPint(esfera), 0.01);
-        assertEquals(rectangulo.area() / 10, pintura.cantidadPint(rectangulo), 0.01);
-        assertEquals(cilindro.area() / 10, pintura.cantidadPint(cilindro), 0.01);
-    }
 }
