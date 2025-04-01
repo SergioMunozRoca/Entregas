@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Ejercicio5 {
+public class Jugadores {
 
     public static void filtrarYGuardar(String archivoEntrada, String archivoSalida) {
         try {
@@ -9,20 +9,19 @@ public class Ejercicio5 {
             BufferedWriter writer = new BufferedWriter(new FileWriter(archivoSalida));
 
             List<String> alojados = new ArrayList<>();
-            reader.readLine(); // Omitir la primera línea
+            reader.readLine();
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.contains("H")) {
-                    String[] fields = line.split(";");
-                    alojados.add(fields[0].trim() + " -- " + fields[2].trim());
+                String[] fields = line.split(";");
+                if (line.substring(line.length() - 3).contains("H")) {
+                    alojados.add(line);
                 }
             }
             reader.close();
 
             writer.write("Lista de jugadores alojados en Hotel Melià\n\n");
-            writer.write("Ranking        Nombre\n");
-            writer.write("---------------------------------------\n");
+            writer.write("------------------------------------------\n\n");
 
             for (String jugador : alojados) {
                 writer.write(jugador);
