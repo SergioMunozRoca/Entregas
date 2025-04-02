@@ -13,14 +13,22 @@ public class Jugadores {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(";");
-                if (line.substring(line.length() - 3).contains("H")) {
-                    alojados.add(line);
+                String[] casillas = line.split(";");
+
+                if (casillas.length >= 3) {
+                    String primeraColumna = casillas[0];
+                    String terceraColumna = casillas[2];
+                    String septimaColumna = casillas[7];
+
+                    if(septimaColumna.contains("H")){
+                        alojados.add(primeraColumna + " - " + terceraColumna);
+                    }
                 }
             }
             reader.close();
 
             writer.write("Lista de jugadores alojados en Hotel Melià\n\n");
+            writer.write("Ranking              Nombre\n");
             writer.write("------------------------------------------\n\n");
 
             for (String jugador : alojados) {
