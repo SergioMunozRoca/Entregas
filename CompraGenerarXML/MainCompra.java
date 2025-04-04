@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -191,8 +192,7 @@ public class MainCompra {
     }
 
     private static void mostrarXML() {
-
-        File archivo = new File("C:\\Users\\User\\Desktop\\ejemplo\\compras.txt");
+        File archivo = new File("C:\\Users\\User\\Desktop\\ejemplo\\compras4.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
 
@@ -201,19 +201,29 @@ public class MainCompra {
 
             for (Compra compra : compraJuego.misJuegos) {
                 writer.write("  <Compra>\n");
-                writer.write("    <idCompra>" + compra.getIdCompra() + "</idCompra>\n");
-                writer.write("    <fCompra>" + compra.getFCompra() + "</fCompra>\n");
-                writer.write("    <metodoPago>" + compra.getMetodoPago() + "</metodoPago>\n");
-                writer.write("    <idUsuario>" + compra.getIdUsuario() + "</idUsuario>\n");
+
+                
+                Field[] campos = Compra.class.getDeclaredFields();
+
+                for (Field campo : campos) {
+                    campo.setAccessible(true); 
+                    String nombreCampo = campo.getName();
+                    Object valorCampo = campo.get(compra); 
+
+                    writer.write("    <" + nombreCampo + ">" + valorCampo + "</" + nombreCampo + ">\n");
+                }
+
                 writer.write("  </Compra>\n");
             }
 
-
             writer.write("</Compras>\n");
 
-            System.out.println("El archivo xml ha sido generado con éxito.");
+            System.out.println("El archivo XML ha sido generado con éxito.");
         } catch (IOException e) {
             System.out.println("Error al escribir el archivo XML: " + e.getMessage());
+        } catch (IllegalAccessException e) {
+            System.out.println("Error al acceder a los campos de la clase Compra: " + e.getMessage());
         }
     }
+
 }
