@@ -192,7 +192,7 @@ public class MainCompra {
 
     private static void mostrarXML() {
 
-        File archivo = new File("C:\\Users\\User\\Desktop\\ejemplo\\compras.xml");
+        File archivo = new File("C:\\Users\\User\\Desktop\\ejemplo\\compras.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
 
