@@ -52,6 +52,15 @@ public class CompraSupermercado {
                 case 5:
                     imprimirYGuardarTicket();
                     break;
+
+                case 6:
+                    mostrarProductosDisponibles();
+                    break;
+
+                case 7:
+                    mostrarCompra();
+                    break;
+
                 default:
                     System.out.println("Opción inválida.");
                     break;
@@ -72,6 +81,8 @@ public class CompraSupermercado {
         System.out.println("3 - Actualizar producto");
         System.out.println("4 - Buscar producto");
         System.out.println("5 - Imprimir y guardar ticket");
+        System.out.println("6 - Mostrar productos disponibles");
+        System.out.println("7 - Mostrar productos añadidos a la compra");
     }
 
     private static void insertarProducto() {
@@ -192,4 +203,35 @@ public class CompraSupermercado {
             System.out.println("Error escribiendo ticket: " + e.getMessage());
         }
     }
+
+    private static void mostrarProductosDisponibles() {
+        System.out.println("\nProductos disponibles en el supermercado:");
+        System.out.printf("%-15s %10s%n", "Producto", "Precio");
+        System.out.println("-------------------------------");
+        for (Map.Entry<String, Double> entry : precios.entrySet()) {
+            System.out.printf("%-15s %10s%n", entry.getKey(), df.format(entry.getValue()));
+        }
+    }
+
+    private static void mostrarCompra() {
+        if (compra.isEmpty()) {
+            System.out.println("\nNo hay productos en la compra.");
+            return;
+        }
+
+        System.out.println("\nProductos añadidos a la compra:");
+        System.out.printf("%-15s %10s %10s%n", "Producto", "Precio", "Cantidad");
+        System.out.println("---------------------------------------------");
+
+        compra.keySet().stream()
+                .sorted()
+                .forEach(nombre -> {
+                    Producto p = compra.get(nombre);
+                    System.out.printf("%-15s %10s %10d%n",
+                            p.getNombre(),
+                            df.format(p.getPrecio()),
+                            p.getCantidad());
+                });
+    }
+
 }
