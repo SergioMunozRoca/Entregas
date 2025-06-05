@@ -1,0 +1,10 @@
+arroz,1.25
+lentejas,2.5
+macarrones,1.9
+leche,1.15
+pan,0.9
+huevos,2.75
+azúcar,1.1
+sal,0.8
+aceite,4.6
+manzanas,12.0
