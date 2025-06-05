@@ -28,4 +28,12 @@ public class Producto {
     public void agregarCantidad(int cantidadExtra) {
         this.cantidad += cantidadExtra;
     }
+
+    public void setCantidad(int nuevaCantidad) {
+        this.cantidad = nuevaCantidad;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
 }
